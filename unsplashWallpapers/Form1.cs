@@ -1,3 +1,5 @@
+using unsplashWallpapers.Service;
+
 namespace unsplashWallpapers
 {
     public partial class Form1 : Form
@@ -35,6 +37,13 @@ namespace unsplashWallpapers
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            UnsplashApiService api = new UnsplashApiService(this.settingsApiKey.Text);
+            string[] tags = { "potato" };
+            var images = api.getNewImage(tags);
         }
     }
 }

@@ -35,7 +35,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.settingsApiKey = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -90,7 +90,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.settingsApiKey);
             this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Location = new System.Drawing.Point(25, 278);
             this.groupBox2.Name = "groupBox2";
@@ -108,12 +108,12 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Unsplash ApiKey";
             // 
-            // textBox1
+            // settingsApiKey
             // 
-            this.textBox1.Location = new System.Drawing.Point(21, 50);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(316, 23);
-            this.textBox1.TabIndex = 1;
+            this.settingsApiKey.Location = new System.Drawing.Point(21, 50);
+            this.settingsApiKey.Name = "settingsApiKey";
+            this.settingsApiKey.Size = new System.Drawing.Size(316, 23);
+            this.settingsApiKey.TabIndex = 1;
             // 
             // button3
             // 
@@ -123,6 +123,7 @@
             this.button3.TabIndex = 0;
             this.button3.Text = "Сохранить";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
@@ -156,7 +157,7 @@
         private Button button2;
         private GroupBox groupBox2;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox settingsApiKey;
         private Button button3;
     }
 }
