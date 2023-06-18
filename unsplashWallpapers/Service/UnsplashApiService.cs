@@ -35,11 +35,11 @@ namespace unsplashWallpapers.Service
             var queryParameters = new Dictionary<string, string>
             {
                 { "orientation", "landscape" },
-                { "query", string.Join(" ", tags)}
+                { "query", string.Join(" or ", tags)}
             };
             var dictFormUrlEncoded = new FormUrlEncodedContent(queryParameters);
             var queryString = dictFormUrlEncoded.ReadAsStringAsync();
-            var request = new HttpRequestMessage(HttpMethod.Get, "/photos/random?" + queryString);
+            var request = new HttpRequestMessage(HttpMethod.Get, "/photos/random?" + queryString.Result);
 
             Task<string> task = sendRequest(request).Content.ReadAsStringAsync();
 
@@ -53,6 +53,7 @@ namespace unsplashWallpapers.Service
             JObject response = JObject.Parse(jsonResult);
 
             var ImageLocation = this.getImageLocation(response.SelectToken("$.links.download_location").ToString());
+
 
             return new ImageDto(response.SelectToken("$.id").ToString(), ImageLocation);
         }

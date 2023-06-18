@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using unsplashWallpapers.Dto;
 using unsplashWallpapers.Service;
@@ -23,6 +24,8 @@ namespace unsplashWallpapers
             this.settingsApiKey.Text = (string)Properties.Settings.Default["apiKey"];
             this.settingsInterval.Value = (int)Properties.Settings.Default["interval"];
             this.settingsDownloadPath.Text = (string)Properties.Settings.Default["downloadPath"];
+
+            changeTimer();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,15 +67,8 @@ namespace unsplashWallpapers
             Properties.Settings.Default["downloadPath"] = this.settingsDownloadPath.Text;
             Properties.Settings.Default.Save();
 
-            UnsplashApiService api = new UnsplashApiService(Properties.Settings.Default.apiKey);
-            string[] tags = this.getTags();
-
-            if (tags.Length > 0)
-            {
-                var image = api.getNewImage(tags);
-                var downloadedImage = api.DownloadImageAsync(image, (string)Properties.Settings.Default["downloadPath"]);
-            }
-
+            changeWallpappers();
+            changeTimer();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -123,6 +119,67 @@ namespace unsplashWallpapers
             {
                 this.settingsDownloadPath.Text = this.folderBrowserDialog1.SelectedPath.ToString();
             }
+        }
+
+        private void changeWallpappers()
+        {
+            if (
+                Properties.Settings.Default["downloadPath"].ToString().Length > 3
+              && Properties.Settings.Default["apiKey"].ToString().Length > 5  
+            ) {
+                UnsplashApiService api = new UnsplashApiService(Properties.Settings.Default.apiKey);
+                string[] tags = this.getTags();
+
+                if (tags.Length > 0)
+                {
+                    var windowsService = new WindowsService();
+                    var image = api.getNewImage(tags);
+                    var downloadedImage = api.DownloadImageAsync(image, (string)Properties.Settings.Default["downloadPath"]);
+
+                    downloadedImage.ContinueWith(t => {
+                        windowsService.changeWallpappers(t.Result);
+                        windowsService.cleanDownloadPath(t.Result);
+                    });
+                }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            changeWallpappers();
+        }
+
+        private void changeTimer()
+        {
+            int interval = (int)Properties.Settings.Default["interval"];
+            if (interval > 0)
+            {
+                this.timer1.Interval = (int)Properties.Settings.Default["interval"] * 60000;
+                this.timer1.Enabled = true;
+            }
+            else
+            {
+                this.timer1.Enabled = false;
+            }
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            //if the form is minimized
+            //hide it from the task bar
+            //and show the system tray icon (represented by the NotifyIcon control)
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                this.notifyIcon1.Visible = true;
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            this.WindowState = FormWindowState.Normal;
+            this.notifyIcon1.Visible = false;
         }
     }
 }

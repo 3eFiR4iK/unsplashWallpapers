@@ -45,6 +45,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.settingsInterval)).BeginInit();
@@ -182,6 +183,17 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipText = "wallpappers";
+            this.notifyIcon1.Text = "notifyIcon1";
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -197,6 +209,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Unsplash auto wallpappers";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -224,5 +237,6 @@
         private TextBox settingsDownloadPath;
         private Button button4;
         private Label label3;
+        private NotifyIcon notifyIcon1;
     }
 }
