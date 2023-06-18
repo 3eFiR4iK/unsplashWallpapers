@@ -30,12 +30,12 @@ namespace unsplashWallpapers.Service
             this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Client-ID", apiKey);
         }
 
-        public ImageDto getNewImage(string[] tags)
+        public ImageDto getNewImage(string tag)
         {
             var queryParameters = new Dictionary<string, string>
             {
                 { "orientation", "landscape" },
-                { "query", string.Join(" or ", tags)}
+                { "query", tag}
             };
             var dictFormUrlEncoded = new FormUrlEncodedContent(queryParameters);
             var queryString = dictFormUrlEncoded.ReadAsStringAsync();

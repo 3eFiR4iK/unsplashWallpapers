@@ -38,10 +38,7 @@ namespace unsplashWallpapers.Service
 
             foreach (FileInfo file in di.GetFiles())
             {
-                if (file.FullName != excludeImage.RealPath)
-                {
-                    file.Delete();
-                }
+                try { file.Delete(); } catch { }
             }
         }
     }

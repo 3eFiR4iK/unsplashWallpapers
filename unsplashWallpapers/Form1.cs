@@ -26,6 +26,13 @@ namespace unsplashWallpapers
             this.settingsDownloadPath.Text = (string)Properties.Settings.Default["downloadPath"];
 
             changeTimer();
+
+            this.contextMenuStrip1.Items.Add("change wallpapper", null, MenuTest1_Click);
+        }
+
+        void MenuTest1_Click(object sender, EventArgs e)
+        {
+            this.changeWallpappers();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -132,8 +139,11 @@ namespace unsplashWallpapers
 
                 if (tags.Length > 0)
                 {
+                    Random random = new Random();
+                    int randomIndex = random.Next(0, tags.Length);
+
                     var windowsService = new WindowsService();
-                    var image = api.getNewImage(tags);
+                    var image = api.getNewImage(tags[randomIndex]);
                     var downloadedImage = api.DownloadImageAsync(image, (string)Properties.Settings.Default["downloadPath"]);
 
                     downloadedImage.ContinueWith(t => {
